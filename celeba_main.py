@@ -33,6 +33,7 @@ flags.DEFINE_string(
     help='GCE zone where the Cloud TPU is located in. If not specified, we '
     'will attempt to automatically detect the GCE project from metadata.')
 
+flags.DEFINE_string('data_dir', '.', 'Bucket/Folder that contains the data tfrecord files')
 flags.DEFINE_string('model_dir', './model', 'Output model directory')
 flags.DEFINE_integer('noise_dim', 64,
                      'Number of dimensions for the noise vector')
@@ -206,6 +207,7 @@ def main(argv):
       model_fn=model_fn,
       use_tpu=FLAGS.use_tpu,
       config=config,
+      params={"data_dir": FLAGS.data_dir},
       train_batch_size=FLAGS.batch_size,
       eval_batch_size=FLAGS.batch_size)
 
@@ -214,6 +216,7 @@ def main(argv):
       model_fn=model_fn,
       use_tpu=False,
       config=config,
+      params={"data_dir": FLAGS.data_dir},
       predict_batch_size=_NUM_VIZ_IMAGES)
 
   tf.gfile.MakeDirs(os.path.join(FLAGS.model_dir))

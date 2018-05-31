@@ -28,12 +28,13 @@ class InputFunction(object):
 
   def __call__(self, params):      
     batch_size = params['batch_size']    
+    data_dir = params['data_dir']    
     dataset = tf.data.TFRecordDataset([
-        'dataset/data_0.tfrecords',
-        'dataset/data_1.tfrecords',
-        'dataset/data_2.tfrecords',
-        'dataset/data_3.tfrecords',
-        'dataset/data_4.tfrecords'
+        data_dir + '/data_0.tfrecords',
+        data_dir + '/data_1.tfrecords',
+        data_dir + '/data_2.tfrecords',
+        data_dir + '/data_3.tfrecords',
+        data_dir + '/data_4.tfrecords'
          ])
     dataset = dataset.map(parser, num_parallel_calls=batch_size)
     dataset = dataset.prefetch(4 * batch_size).cache().repeat()
